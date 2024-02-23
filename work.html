@@ -6,7 +6,83 @@
     <title>Document</title>
 </head>
 <body>
-    Hello, world!
-    <h1>hello, all!</h1>
+    <canvas id="canvas" width="600" height="600" onclick="onCanvasClick(event)">
+
+    </canvas>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var spheres = [];
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+              color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        var minRadius = 10;
+        var maxRadius = 50;
+        function onCanvasClick (e){
+            var radius = Math.floor(Math.random() * (maxRadius - minRadius + 1)) + minRadius;
+            var sphere = {
+                x: e.clientX,
+                y: e.clientY,
+                radius: radius,
+                vx: Math.random() * 4 - 2,
+                vy: Math.random() * 4 - 2,
+                color: getRandomColor()
+            };
+            spheres.push(sphere);
+        }
+        function updateSpheres() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = 0; i < spheres.length; i++) {
+                var sphere = spheres[i];
+                sphere.x += sphere.vx;
+                sphere.y += sphere.vy;
+                ctx.fillStyle = sphere.color;
+                ctx.beginPath();
+                ctx.arc(sphere.x, sphere.y, sphere.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function updateSpheres() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < spheres.length; i++) {
+        var sphere = spheres[i];
+        
+        // Проверка столкновения с левой границей
+        if (sphere.x < sphere.radius) {
+            sphere.vx = -sphere.vx;
+        }
+        
+        // Проверка столкновения с правой границей
+        if (sphere.x > canvas.width - sphere.radius) {
+            sphere.vx = -sphere.vx;
+        }
+        
+        // Проверка столкновения с верхней границей
+        if (sphere.y < sphere.radius) {
+            sphere.vy = -sphere.vy;
+        }
+        
+        // Проверка столкновения с нижней границей
+        if (sphere.y > canvas.height - sphere.radius) {
+            sphere.vy = -sphere.vy;
+        }
+        
+        sphere.x += sphere.vx;
+        sphere.y += sphere.vy;
+        ctx.fillStyle = sphere.color;
+        ctx.beginPath();
+        ctx.arc(sphere.x, sphere.y, sphere.radius, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+        setInterval(updateSpheres, 20);
+    </script>
 </body>
 </html>
