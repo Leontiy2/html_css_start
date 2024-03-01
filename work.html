@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <canvas id="canvas" width="600" height="600" onclick="onCanvasClick(event)">
+    <canvas id="canvas" width="600" height="600" onclick="onCanvasClick(event)" style="background-color: Lavender">
 
     </canvas>
     <script>
@@ -47,6 +47,8 @@
                 ctx.fill();
             }
         }
+
+//-------------------------------------------------------------------------
 
         function updateSpheres() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
